@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenMiscible PMA - Private Creative Collaboration Network</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"><animateTransform attributeName="transform" type="translate" values="0,0;100,50;0,0" dur="20s" repeatCount="indefinite"/></circle><circle cx="800" cy="300" r="80" fill="url(%23a)"><animateTransform attributeName="transform" type="translate" values="0,0;-80,80;0,0" dur="15s" repeatCount="indefinite"/></circle><circle cx="500" cy="700" r="120" fill="url(%23a)"><animateTransform attributeName="transform" type="translate" values="0,0;120,-60;0,0" dur="25s" repeatCount="indefinite"/></circle></svg>') no-repeat center;
+            background-size: cover;
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 300;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #ff5252, #feb47b);
+        }
+
+        .features {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .membership-tiers {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+        }
+
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tier-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-price {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: #feca57;
+        }
+
+        .tier-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tier-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tier-features li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            color: white;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.9);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-option {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover, .payment-option.selected {
+            border-color: #feca57;
+            background: rgba(254,202,87,0.2);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .pi-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo-container">
+                <img data-proton-replace-base="pts810f2g80m-1751794364190" alt="ZenMiscible Logo" class="logo-image">
+                <h1 class="logo">ZenMiscible</h1>
+            </div>
+            <p class="tagline">Private Members Association • ZENeARTh Creative Platform • FACT Karma System</p>
+            <p style="font-size: 1.1rem; opacity: 0.8; margin-bottom: 2rem;">
+                Join a sovereign creative community where artists thrive through passion, not popularity. 
+                Earn FACT karma points, access ZENeARTh social platform, collaborate on projects, and perform in global venues while keeping your creative rights.
+            </p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="openMembershipModal()">
+                    <i class="fas fa-rocket"></i> Join the Network
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToFeatures()">
+                    <i class="fas fa-compass"></i> Explore Benefits
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Sovereign Creative Ecosystem</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="feature-title">ZENeARTh Social Platform</h3>
+                    <p>Passion-driven creative community where artists share, teach, and earn through meaningful engagement. No likes, no superficial contests - just authentic creative connections.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="feature-title">FACT Karma System</h3>
+                    <p>"Fostering Art Contributing Time" - Earn karma points through genuine engagement, sharing others' work, and meaningful tips. Redeem for events, auctions, and exclusive merchandise.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Talent Matching</h3>
+                    <p>Advanced algorithms connect your artistic skills with complementary talents, creating synergistic collaboration opportunities based on passion and learning desires.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Privacy-First Design</h3>
+                    <p>Member-controlled data sovereignty with granular privacy settings. Your creative journey stays private unless you choose to share specific elements.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="feature-title">"Dream Big" Portal</h3>
+                    <p>Visual project conceptualization tools with AI-driven feasibility scoring and automatic resource matching across our global member network.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3 class="feature-title">Global Venue Network</h3>
+                    <p>Access premium creative spaces worldwide through our "Rabbit Hole" event framework - from immersive retreats to innovation labs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Impact Visualization</h3>
+                    <p>3D holographic-style dashboards track your collaboration contributions, skill development, and ripple effects across the community.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-theater-masks"></i>
+                    </div>
+                    <h3 class="feature-title">Performance & Venue Access</h3>
+                    <p>Global theater venues with travel passes for performers. Earn from ticket sales while we handle logistics. Keep your creative rights - we support your success.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <h3 class="feature-title">The Zenith Podcast</h3>
+                    <p>Bi-weekly spotlight awards recognizing active community engagement and sharing. Get featured for fostering genuine connections and supporting fellow artists.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="feature-title">Tip Economy & Pi Integration</h3>
+                    <p>Direct artist support with $0.25 minimum tips in USD or Pi Coin. 10% platform fee on sales, 90% goes to artists. Fair revenue sharing that protects creators.<span class="pi-badge">Pi Network</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Tiers -->
+    <section class="membership-tiers">
+        <div class="container">
+            <h2 class="section-title">Membership Pathways</h2>
+            <div class="tiers-grid">
+                <div class="tier-card">
+                    <h3 class="tier-name">Seeker</h3>
+                    <div class="tier-price">$197/year</div>
+                    <ul class="tier-features">
+                        <li>Basic collaboration tracking</li>
+                        <li>"Dream Big" portal (view access)</li>
+                        <li>Monthly virtual workshops</li>
+                        <li>Regional event notifications</li>
+                        <li>Privacy-controlled profile</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectTier('seeker')">Begin Journey</button>
+                </div>
+
+                <div class="tier-card">
+                    <h3 class="tier-name">Creator</h3>
+                    <div class="tier-price">$497/year</div>
+                    <ul class="tier-features">
+                        <li>Advanced impact visualization</li>
+                        <li>Project initiation capabilities</li>
+                        <li>Member venue booking system</li>
+                        <li>Quarterly event hosting eligibility</li>
+                        <li>AI talent matching priority</li>
+                        <li>Time investment tracking</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectTier('creator')">Create & Connect</button>
+                </div>
+
+                <div class="tier-card">
+                    <h3 class="tier-name">Curator</h3>
+                    <div class="tier-price">$1,297/year</div>
+                    <ul class="tier-features">
+                        <li>Property listing privileges</li>
+                        <li>Revenue management system</li>
+                        <li>Tax optimization consultation</li>
+                        <li>Priority project access</li>
+                        <li>Custom event branding</li>
+                        <li>ROI tracking for venues</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectTier('curator')">Share Resources</button>
+                </div>
+
+                <div class="tier-card">
+                    <h3 class="tier-name">Visionary</h3>
+                    <div class="tier-price">$2,997/year</div>
+                    <ul class="tier-features">
+                        <li>Governance voting rights</li>
+                        <li>Community Trust access</li>
+                        <li>Advanced tax strategies</li>
+                        <li>Global expansion partnerships</li>
+                        <li>White-label licensing</li>
+                        <li>Platform development influence</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectTier('visionary')">Lead Evolution</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Modal -->
+    <div id="membershipModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMembershipModal()">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Join ZenMiscible PMA</h2>
+            <form id="membershipForm">
+                <div class="form-group">
+                    <label>Membership Tier</label>
+                    <select id="membershipTier" required>
+                        <option value="">Select Your Path</option>
+                        <option value="supporting">Supporting Pass - $27/month</option>
+                        <option value="seeker">Seeker - $197/year</option>
+                        <option value="creator">Creator - $497/year</option>
+                        <option value="curator">Curator - $1,297/year</option>
+                        <option value="visionary">Visionary - $2,997/year</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Creative Skills & Interests</label>
+                    <input type="text" id="skills" placeholder="e.g., Digital Art, Music Production, Writing, Photography..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Skills You'd Like to Learn</label>
+                    <input type="text" id="learningInterests" placeholder="e.g., 3D Modeling, Meditation, Sustainable Living...">
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPayment('usd')">
+                            <i class="fas fa-dollar-sign"></i><br>USD
+                        </div>
+                        <div class="payment-option" onclick="selectPayment('pi')">
+                            <i class="fas fa-coins"></i><br>Pi Coin
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-lock"></i> Secure Membership Access
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ZenMiscible Private Members Association. A sovereign creative community.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Privacy-First • Member-Owned • Globally Connected</p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedTier = '';
+        let selectedPayment = '';
+
+        function openMembershipModal() {
+            document.getElementById('membershipModal').style.display = 'block';
+        }
+
+        function closeMembershipModal() {
+            document.getElementById('membershipModal').style.display = 'none';
+        }
+
+        function selectTier(tier) {
+            selectedTier = tier;
+            document.getElementById('membershipTier').value = tier;
+            openMembershipModal();
+        }
+
+        function selectPayment(payment) {
+            selectedPayment = payment;
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('membershipModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Form submission
+        document.getElementById('membershipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                tier: document.getElementById('membershipTier').value,
+                name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                skills: document.getElementById('skills').value,
+                learningInterests: document.getElementById('learningInterests').value,
+                paymentMethod: selectedPayment
+            };
+
+            // Here you would integrate with your payment processor and member management system
+            alert('Welcome to ZenMiscible PMA! Your membership application has been received. You will receive login credentials shortly.');
+            closeMembershipModal();
+
+            // Reset form
+            document.getElementById('membershipForm').reset();
+            selectedPayment = '';
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+        });
+
+        // Smooth scroll animation for hero elements
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero::before');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
